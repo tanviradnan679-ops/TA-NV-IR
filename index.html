@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Tanvir Adnan-এর ব্যক্তিগত পরিচিতি, ইলেকট্রনিক্স প্রজেক্ট ও নোট।">
+  <title>Tanvir Adnan | Personal Hub</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#home"><img src="logo.png" alt="Tanvir Adnan logo"><span>Tanvir Adnan</span></a>
+    <nav>
+      <a href="#about">পরিচিতি</a><a href="#projects">প্রজেক্ট</a><a href="#private">আমার নোট</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <p class="eyebrow">PERSONAL WEBSITE · ELECTRONICS</p>
+        <h1>হ্যালো, আমি <span>Tanvir Adnan</span></h1>
+        <p class="lead">শিক্ষার্থী, ইলেকট্রনিক্সপ্রেমী এবং সার্কিট ও WiFi UPS নিয়ে কাজ করতে ভালোবাসি।</p>
+        <div class="actions"><a class="btn primary" href="#projects">আমার প্রজেক্ট</a><a class="btn ghost" href="#about">আমার সম্পর্কে</a></div>
+      </div>
+      <div class="hero-art" aria-label="ইলেকট্রনিক্স সার্কিটের অলংকারমূলক চিত্র">
+        <div class="chip">⚡</div><div class="circuit c1"></div><div class="circuit c2"></div>
+        <span class="node n1"></span><span class="node n2"></span><span class="node n3"></span>
+        <p>LEARN · BUILD · IMPROVE</p>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="section-head"><p class="eyebrow">ABOUT ME</p><h2>আমার পরিচিতি</h2></div>
+      <div class="panel about">
+        <div class="avatar">TA</div>
+        <div><h3>Tanvir Adnan</h3>
+          <p>আমি একজন শিক্ষার্থী। Dinajpur Textile Institute-এ পড়াশোনা করি। বিভিন্ন ধরনের সার্কিট ও ইলেকট্রনিক যন্ত্র নিয়ে জানতে এবং প্রজেক্ট তৈরি করতে আগ্রহী।</p>
+          <p class="muted">এই পরিচিতি প্রকাশ্য। এখানে ব্যক্তিগত ঠিকানা, পাসওয়ার্ড বা সংবেদনশীল তথ্য প্রকাশ কোরো না।</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="projects">
+      <div class="section-head"><p class="eyebrow">MY WORK</p><h2>প্রজেক্ট ও কাজ</h2><p class="muted">এগুলো নমুনা কার্ড—নিজের আসল প্রজেক্ট পরে যোগ করতে পারবে।</p></div>
+      <div class="cards" id="project-list">
+        <article class="project-card"><div class="project-icon">⌁</div><h3>Mini WiFi UPS</h3><p>রাউটার ও ONU-এর ব্যাকআপ পাওয়ার নিয়ে কাজ ও শেখার নোট।</p><span class="tag">Power</span></article>
+        <article class="project-card"><div class="project-icon">⌘</div><h3>সার্কিট গবেষণা</h3><p>ইলেকট্রনিক্স সার্কিট, উপাদান এবং পরীক্ষার ফলাফল।</p><span class="tag">Electronics</span></article>
+        <article class="project-card"><div class="project-icon">＋</div><h3>নতুন প্রজেক্ট</h3><p>এখানে তোমার পরের প্রজেক্টের বিবরণ যোগ করো।</p><span class="tag">In progress</span></article>
+      </div>
+    </section>
+
+    <section class="section private-section" id="private">
+      <div class="section-head"><p class="eyebrow">PRIVATE AREA</p><h2>আমার ব্যক্তিগত নোট</h2><p class="muted">নোট দেখতে বা লিখতে আগে লগইন করতে হবে।</p></div>
+      <div class="panel auth-panel">
+        <div id="config-warning" class="notice">লগইন চালু করতে README.md-এর নির্দেশনা অনুযায়ী Supabase URL ও public anon key app.js ফাইলে বসাও।</div>
+        <div id="auth-area">
+          <label for="email">ইমেইল</label><input id="email" type="email" placeholder="তোমার ইমেইল" autocomplete="email">
+          <label for="password">পাসওয়ার্ড</label><input id="password" type="password" placeholder="কমপক্ষে ৮ অক্ষর" autocomplete="current-password">
+          <div class="actions"><button class="btn primary" id="login-btn">লগইন</button><button class="btn ghost" id="signup-btn">নতুন অ্যাকাউন্ট</button></div>
+          <p id="auth-message" class="status" role="status"></p>
+        </div>
+        <div id="notes-area" hidden>
+          <div class="logged-in"><span id="user-label"></span><button class="btn ghost small" id="logout-btn">লগআউট</button></div>
+          <label for="note-title">নোটের শিরোনাম</label><input id="note-title" maxlength="120" placeholder="যেমন: UPS সার্কিটের হিসাব">
+          <label for="note-body">নোট</label><textarea id="note-body" rows="4" maxlength="10000" placeholder="নিজের নোট এখানে লেখো..."></textarea>
+          <button class="btn primary" id="save-note-btn">নোট সংরক্ষণ</button>
+          <p id="note-message" class="status" role="status"></p>
+          <h3 class="notes-title">সংরক্ষিত নোট</h3><div id="notes-list" class="notes-list"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><span>© <span id="year"></span> Tanvir Adnan</span><span>নিজের জ্ঞান, নিজের প্রজেক্ট</span></footer>
+</body>
+</html>
