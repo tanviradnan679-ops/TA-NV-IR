@@ -1,0 +1,190 @@
+
+"use strict";
+
+// Admin Login
+const ADMIN_EMAIL = "tanviradnan679@gmail.com";
+
+// এখানে index.html-এর মতো একই পাসওয়ার্ড বসাবে
+const ADMIN_PASSWORD = "tanvir@5699";
+
+const NOTES_KEY = "tanvir_notes";
+const SESSION_KEY = "tanvir_admin_logged_in";
+
+const $ = (id) => document.getElementById(id);
+
+function isLoggedIn() {
+  return sessionStorage.getItem(SESSION_KEY) === "yes";
+}
+
+function login() {
+  const email = $("email").value.trim();
+  const password = $("password").value;
+
+  if (
+    email === ADMIN_EMAIL &&
+    password === ADMIN_PASSWORD
+  ) {
+    sessionStorage.setItem(SESSION_KEY, "yes");
+    $("password").value = "";
+    $("login-message").textContent = "";
+    updateView();
+  } else {
+    $("login-message").textContent =
+      "Email or password is incorrect!";
+  }
+}
+
+function logout() {
+  sessionStorage.removeItem(SESSION_KEY);
+  $("email").value = "";
+  $("password").value = "";
+  updateView();
+}
+
+function getNotes() {
+  try {
+    const notes = JSON.parse(
+      localStorage.getItem(NOTES_KEY) || "[]"
+    );
+    return Array.isArray(notes) ? notes : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveNote() {
+  if (!isLoggedIn()) {
+    alert("Please login first!");
+    return;
+  }
+
+  const title = $("note-title").value.trim();
+  const body = $("note-body").value.trim();
+
+  if (!title && !body) {
+    alert("Please write a note first!");
+    return;
+  }
+
+  const notes = getNotes();
+
+  notes.push({
+    id: Date.now().toString() +
+      Math.random().toString(16).slice(2),
+    title,
+    body,
+    date: new Date().toLocaleString()
+  });
+
+  try {
+    localStorage.setItem(
+      NOTES_KEY,
+      JSON.stringify(notes)
+    );
+  } catch {
+    alert("Could not save the note.");
+    return;
+  }
+
+  $("note-title").value = "";
+  $("note-body").value = "";
+
+  showNotes();
+  alert("Note saved successfully!");
+}
+
+function deleteNote(id) {
+  if (!isLoggedIn()) return;
+
+  if (!confirm("Do you want to delete this note?")) {
+    return;
+  }
+
+  const notes = getNotes().filter(
+    note => note.id !== id
+  );
+
+  localStorage.setItem(
+    NOTES_KEY,
+    JSON.stringify(notes)
+  );
+
+  showNotes();
+}
+
+function showNotes() {
+  const list = $("notes-list");
+  if (!list) return;
+
+  list.replaceChildren();
+  const notes = getNotes().slice().reverse();
+
+  if (notes.length === 0) {
+    const empty = document.createElement("p");
+    empty.textContent = "No notes yet.";
+    list.appendChild(empty);
+    return;
+  }
+
+  notes.forEach(note => {
+    const card = document.createElement("div");
+    card.className = "note";
+
+    const heading = document.createElement("h3");
+    heading.textContent = note.title || "Untitled";
+
+    const paragraph = document.createElement("p");
+    paragraph.textContent = note.body || "";
+
+    const date = document.createElement("small");
+    date.textContent = note.date || "";
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "delete";
+    button.textContent = "Delete";
+    button.addEventListener("click", () => {
+      deleteNote(note.id);
+    });
+
+    card.append(
+      heading,
+      paragraph,
+      date,
+      document.createElement("br"),
+      button
+    );
+
+    list.appendChild(card);
+  });
+}
+
+function updateView() {
+  const loggedIn = isLoggedIn();
+
+  if ($("auth-area")) {
+    $("auth-area").hidden = loggedIn;
+  }
+
+  if ($("notes-area")) {
+    $("notes-area").hidden = !loggedIn;
+  }
+
+  if (loggedIn) showNotes();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  $("login-btn")?.addEventListener("click", login);
+  $("logout-btn")?.addEventListener("click", logout);
+  $("save-note-btn")?.addEventListener("click", saveNote);
+
+  $("password")?.addEventListener("keydown", event => {
+    if (event.key === "Enter") login();
+  });
+
+  $("email")?.addEventListener("keydown", event => {
+    if (event.key === "Enter") login();
+  });
+
+  updateView();
+});
